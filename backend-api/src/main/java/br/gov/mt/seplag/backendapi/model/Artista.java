@@ -25,6 +25,7 @@ public class Artista {
     private String nome;
 
     @NotNull
+    @Convert(converter = TipoArtistaConverter.class)
     private TipoArtista tipo;
 
     @ManyToMany
