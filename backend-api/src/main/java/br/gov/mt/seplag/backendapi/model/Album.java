@@ -26,6 +26,9 @@ public class Album {
 
     private LocalDateTime dataCadastro = LocalDateTime.now();
 
+    @Column(name = "imagem_capa")
+    private String imagemCapa;
+
     @ManyToMany(mappedBy = "albuns")
     private Set<Artista> artistas = new HashSet<>();
 }

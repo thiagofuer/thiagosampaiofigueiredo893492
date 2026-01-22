@@ -12,6 +12,7 @@ public class AlbumDTO {
     @NotBlank(message = "O título do álbum é obrigatório")
     private String titulo;
     private LocalDateTime dataCadastro;
+    private String imagemCapa;
     // Campo para receber os IDs no POST/PUT (Entrada)
     private Set<Long> artistaIds;
     // Lista de IDs ou Nomes dos artistas vinculados

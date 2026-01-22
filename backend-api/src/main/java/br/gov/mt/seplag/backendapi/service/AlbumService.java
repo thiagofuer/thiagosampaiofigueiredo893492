@@ -56,6 +56,7 @@ public class AlbumService {
         dto.setId(entity.getId());
         dto.setTitulo(entity.getTitulo());
         dto.setDataCadastro(entity.getDataCadastro());
+        dto.setImagemCapa(entity.getImagemCapa());
         dto.setNomesArtistas(entity.getArtistas().stream()
                 .map(Artista::getNome)
                 .collect(Collectors.toSet()));
