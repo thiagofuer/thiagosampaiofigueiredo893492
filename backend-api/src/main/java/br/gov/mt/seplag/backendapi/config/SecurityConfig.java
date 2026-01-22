@@ -6,6 +6,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -17,16 +18,22 @@ import java.util.List;
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http,
+                                           SecurityFilter securityFilter,
+                                           RateLimitFilter rateLimitFilter) throws Exception {
         http
                 .csrf(csrf -> csrf.disable()) //Desabilitando csfr pois usaremos JWT (Stateless)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) //Desabilitando a sessão pois não é necessário para JWT
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/v1/auth/**").permitAll() //Excluindo o endpoint da autenticação da necessidade de usar token
-                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll() //Libera o Swagger tambem
-                        .anyRequest().authenticated() //Agora o restante das urls exigem token
+                        .requestMatchers("/v1/auth/**", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll() //Libera o endpoint da autenticação e swagger da necessidade de usar token
+                        .anyRequest().authenticated()
                 )
-                .cors(cors -> cors.configurationSource(corsConfigurationSource())); //Carrega as configurações do CORS
+                //Carrega as configurações do CORS
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+
+                //Filtros: Rate Limit -> Security
+                .addFilterBefore(rateLimitFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
