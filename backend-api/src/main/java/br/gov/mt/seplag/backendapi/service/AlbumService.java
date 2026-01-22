@@ -20,6 +20,7 @@ public class AlbumService {
 
     private final AlbumRepository repository;
     private final ArtistaRepository artistaRepository;
+    private final S3Service s3Service;
 
     @Transactional(readOnly = true)
     public Page<AlbumDTO> listarPaginado(TipoArtista tipo, String busca, Pageable pageable) {
@@ -56,7 +57,7 @@ public class AlbumService {
         dto.setId(entity.getId());
         dto.setTitulo(entity.getTitulo());
         dto.setDataCadastro(entity.getDataCadastro());
-        dto.setImagemCapa(entity.getImagemCapa());
+        dto.setImagemCapa(s3Service.gerarUrlPreAssinada(entity.getImagemCapa()));
         dto.setNomesArtistas(entity.getArtistas().stream()
                 .map(Artista::getNome)
                 .collect(Collectors.toSet()));
