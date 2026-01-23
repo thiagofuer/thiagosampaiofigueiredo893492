@@ -20,6 +20,7 @@ public class RegionalSyncService {
 
     private final RegionalClient client;
     private final RegionalRepository repository;
+    private final NotificationService notificationService;
 
     @Scheduled(cron = "0 0 * * * *")
     @Transactional
@@ -65,6 +66,7 @@ public class RegionalSyncService {
                     local.setAtivo(false);
                     repository.save(local);
                 });
+        notificationService.enviarNotificacao("Sincronização de Regionais concluída com sucesso.");
     }
 
     private void salvarNovaRegional(RegionalDTO dto) {

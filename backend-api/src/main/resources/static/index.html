@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Teste WebSocket SEPLAG</title>
+    <meta charset="UTF-8"> <title>Teste WebSocket SEPLAG</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+</head>
+<body>
+<h2>Notificações Real-Time</h2>
+<div id="status" style="color: red;">Desconectado</div>
+<ul id="mensagens"></ul>
+
+<script>
+    // Conecta ao endpoint definido no WebSocketConfig
+    const socket = new SockJS('/ws-api');
+    const stompClient = Stomp.over(socket);
+
+    stompClient.connect({}, function (frame) {
+        document.getElementById('status').innerText = 'Conectado!';
+        document.getElementById('status').style.color = 'green';
+        console.log('Conectado: ' + frame);
+
+        // Faz a inscrição no topico de notificações
+        stompClient.subscribe('/topic/notificacoes', function (notification) {
+            const li = document.createElement('li');
+            li.innerText = new Date().toLocaleTimeString() + ": " + notification.body;
+            document.getElementById('mensagens').appendChild(li);
+        });
+    }, function (error) {
+        console.log('Erro na conexão: ' + error);
+    });
+</script>
+</body>
+</html>

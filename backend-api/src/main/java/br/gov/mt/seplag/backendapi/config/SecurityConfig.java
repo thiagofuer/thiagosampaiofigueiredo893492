@@ -25,7 +25,9 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) //Desabilitando csfr pois usaremos JWT (Stateless)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) //Desabilitando a sessão pois não é necessário para JWT
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/", "/index.html", "/static/**").permitAll() // Libera a página de teste do websocket
                         .requestMatchers("/v1/auth/**", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll() //Libera o endpoint da autenticação e swagger da necessidade de usar token
+                        .requestMatchers("/ws-api/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 //Carrega as configurações do CORS

@@ -21,6 +21,7 @@ public class AlbumService {
     private final AlbumRepository repository;
     private final ArtistaRepository artistaRepository;
     private final S3Service s3Service;
+    private final NotificationService notificationService;
 
     @Transactional(readOnly = true)
     public Page<AlbumDTO> listarPaginado(TipoArtista tipo, String busca, Pageable pageable) {
@@ -48,8 +49,9 @@ public class AlbumService {
             album.setArtistas(artistaRepository.findAllById(dto.getArtistaIds())
                     .stream().collect(Collectors.toSet()));
         }
-
-        return toDTO(repository.save(album));
+        AlbumDTO albumDTO = toDTO(repository.save(album));
+        notificationService.enviarNotificacao("Novo álbum cadastrado: " + album.getTitulo());
+        return albumDTO;
     }
 
     private AlbumDTO toDTO(Album entity) {
