@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.stream.Collectors;
 
 @Service
@@ -43,11 +44,10 @@ public class AlbumService {
     public AlbumDTO salvar(AlbumDTO dto) {
         Album album = new Album();
         album.setTitulo(dto.getTitulo());
-
+        album.setImagemCapa(dto.getImagemCapa());
         // Vinculando artistas pelos IDs informados (Relacionamento N:N)
         if (dto.getArtistaIds() != null) {
-            album.setArtistas(artistaRepository.findAllById(dto.getArtistaIds())
-                    .stream().collect(Collectors.toSet()));
+            album.setArtistas(new HashSet<>(artistaRepository.findAllById(dto.getArtistaIds())));
         }
         AlbumDTO albumDTO = toDTO(repository.save(album));
         notificationService.enviarNotificacao("Novo álbum cadastrado: " + album.getTitulo());
