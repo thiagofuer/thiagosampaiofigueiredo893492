@@ -24,7 +24,7 @@ public class AlbumController {
 
     private final AlbumService service;
 
-    @Operation(summary = "Listar álbuns", description = "Retorna uma lista paginada de álbuns, com filtros opcionais por tipo de artista ou nome artista.")
+    @Operation(summary = "Listar álbuns", description = "Retorna uma lista paginada de álbuns, com filtros opcionais por tipo de artista e termo de pesquisa (título ou artista).")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Lista de álbuns recuperada com sucesso"),
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
@@ -32,9 +32,9 @@ public class AlbumController {
     @GetMapping
     public ResponseEntity<Page<AlbumDTO>> listar(
             @RequestParam(required = false) TipoArtista tipo,
-            @RequestParam(required = false) String busca,
-            @PageableDefault(sort = "titulo") Pageable pageable) {
-        return ResponseEntity.ok(service.listarPaginado(tipo, busca, pageable));
+            @RequestParam(required = false) String termo,
+            @PageableDefault(size = 20, sort = "titulo") Pageable pageable) {
+        return ResponseEntity.ok(service.listarPaginado(tipo, termo, pageable));
     }
 
     @Operation(summary = "Criar álbum", description = "Cria um novo álbum.")

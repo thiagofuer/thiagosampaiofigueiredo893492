@@ -25,19 +25,9 @@ public class AlbumService {
     private final NotificationService notificationService;
 
     @Transactional(readOnly = true)
-    public Page<AlbumDTO> listarPaginado(TipoArtista tipo, String busca, Pageable pageable) {
-        return buscarAlbuns(tipo, busca, pageable)
+    public Page<AlbumDTO> listarPaginado(TipoArtista tipo, String termo, Pageable pageable) {
+        return repository.listarComFiltros(tipo, termo, pageable)
                 .map(this::toDTO);
-    }
-
-    private Page<Album> buscarAlbuns(TipoArtista tipo, String busca, Pageable pageable) {
-        if (tipo != null) {
-            return repository.findByArtistasTipo(tipo, pageable);
-        }
-        if (busca != null && !busca.isBlank()) {
-            return repository.findByTituloOrArtistaNome(busca, pageable);
-        }
-        return repository.findAll(pageable);
     }
 
     @Transactional
