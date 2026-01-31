@@ -12,8 +12,8 @@ public interface AlbumRepository extends JpaRepository<Album, Long> {
 
     @Query("SELECT DISTINCT a FROM Album a LEFT JOIN a.artistas art " +
             "WHERE (:tipo IS NULL OR art.tipo = :tipo) " +
-            "AND (:termo IS NULL OR LOWER(a.titulo) LIKE LOWER(CONCAT(:termo, '%')) " +
-            "OR LOWER(art.nome) LIKE LOWER(CONCAT(:termo, '%')))")
+            "AND (:termo IS NULL OR LOWER(a.titulo) LIKE LOWER(CONCAT(CAST(:termo AS string), '%')) " +
+            "OR LOWER(art.nome) LIKE LOWER(CONCAT(CAST(:termo AS string), '%')))")
     Page<Album> listarComFiltros(@Param("tipo") TipoArtista tipo, @Param("termo") String termo, Pageable pageable);
 
 }

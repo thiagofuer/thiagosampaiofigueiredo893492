@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -33,7 +34,7 @@ public class AlbumController {
     public ResponseEntity<Page<AlbumDTO>> listar(
             @RequestParam(required = false) TipoArtista tipo,
             @RequestParam(required = false) String termo,
-            @PageableDefault(size = 20, sort = "titulo") Pageable pageable) {
+            @ParameterObject @PageableDefault(size = 20, sort = "titulo") Pageable pageable) {
         return ResponseEntity.ok(service.listarPaginado(tipo, termo, pageable));
     }
 
