@@ -80,6 +80,7 @@ public class AlbumService {
         if (artistas.size() != artistaIds.size()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Um ou mais artistas informados não existem.");
         }
+        artistas.forEach(a -> a.getAlbuns().add(album));
         album.setArtistas(artistas);
     }
 
