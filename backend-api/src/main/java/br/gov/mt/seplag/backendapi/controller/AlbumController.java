@@ -48,4 +48,39 @@ public class AlbumController {
     public ResponseEntity<AlbumDTO> criar(@Valid @RequestBody AlbumDTO dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.salvar(dto));
     }
+
+    @Operation(summary = "Buscar álbum por ID", description = "Retorna os dados de um álbum específico.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Álbum encontrado"),
+            @ApiResponse(responseCode = "404", description = "Álbum não encontrado"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
+    @GetMapping("/{id}")
+    public ResponseEntity<AlbumDTO> buscarPorId(@PathVariable Long id) {
+        return ResponseEntity.ok(service.buscarPorId(id));
+    }
+
+    @Operation(summary = "Atualizar álbum", description = "Atualiza os dados de um álbum existente.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Álbum atualizado com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Dados inválidos fornecidos"),
+            @ApiResponse(responseCode = "404", description = "Álbum não encontrado"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
+    @PutMapping("/{id}")
+    public ResponseEntity<AlbumDTO> atualizar(@PathVariable Long id, @Valid @RequestBody AlbumDTO dto) {
+        return ResponseEntity.ok(service.atualizar(id, dto));
+    }
+
+    @Operation(summary = "Excluir álbum", description = "Remove um álbum existente.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Álbum removido com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Álbum não encontrado"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> excluir(@PathVariable Long id) {
+        service.excluir(id);
+        return ResponseEntity.noContent().build();
+    }
 }
