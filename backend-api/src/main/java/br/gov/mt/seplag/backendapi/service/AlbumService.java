@@ -67,8 +67,9 @@ public class AlbumService {
 
     @Transactional
     public void excluir(Long id) {
-        Album album = repository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Álbum não encontrado"));
+        Album album = repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Álbum não encontrado"));
+        album.getArtistas().forEach(artista -> artista.getAlbuns().remove(album));
+        album.getArtistas().clear();
         repository.delete(album);
     }
 
