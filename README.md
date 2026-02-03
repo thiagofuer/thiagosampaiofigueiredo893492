@@ -53,6 +53,19 @@ mvn spring-boot:run
 
 A API estará acessível em `http://localhost:8080` e a documentação interativa do Swagger poderá ser consultada no endereço `/swagger-ui/index.html`.
 
+### ✅ Acessando o Health Check
+
+1. Garanta que a aplicação esteja em execução localmente (`mvn spring-boot:run`) e acessível em `http://localhost:8080`.
+2. Utilize o Actuator para verificar o estado geral do serviço em `http://localhost:8080/actuator/health`.
+3. Você pode realizar a requisição via navegador ou com `curl`:
+
+```bash
+curl -X GET http://localhost:8080/actuator/health
+```
+
+Uma resposta `{"status":"UP"}` indica que todos os componentes monitorados estão saudáveis. Em caso de falhas, o payload exibirá quais dependências exigem atenção.
+
+
 ## 📡 Teste de Notificações em Tempo Real
 
 Para validar o funcionamento das mensagens reativas sem a necessidade de um frontend externo complexo:
