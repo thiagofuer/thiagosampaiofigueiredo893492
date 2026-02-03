@@ -28,6 +28,7 @@ public class SecurityConfig {
                         .requestMatchers("/", "/index.html", "/static/**").permitAll() // Libera a página de teste do websocket
                         .requestMatchers("/v1/auth/**", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll() //Libera o endpoint da autenticação e swagger da necessidade de usar token
                         .requestMatchers("/ws-api/**").permitAll()
+                        .requestMatchers("/actuator/*").permitAll()
                         .anyRequest().authenticated()
                 )
                 //Carrega as configurações do CORS
