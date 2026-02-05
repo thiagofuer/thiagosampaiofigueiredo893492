@@ -27,7 +27,7 @@ public class SecurityFilter extends OncePerRequestFilter {
         String token = recuperarToken(request);
 
         if (token != null) {
-            String login = jwtService.validarToken(token);
+            String login = jwtService.validarAccessToken(token);
             if (login != null) {
                 UserDetails user = User.builder().username(login).password("").authorities("USER").build();
                 var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
