@@ -1,11 +1,3 @@
-# 📋 Identificação do Candidato e Vaga
-
-* **Candidato:** Thiago Sampaio Figueiredo
-* **Projeto:** PROJETO PRÁTICO - IMPLEMENTAÇÃO BACK END JAVA SÊNIOR
-* **Processo Seletivo:** Edital nº 001/2026/SEPLAG-MT
-* **Vaga:** Engenheiro da Computação / SÊNIOR. (Foco em Backend Java)
-* **Órgão:** Secretaria de Estado de Planejamento e Gestão de Mato Grosso (SEPLAG-MT)
-
 # Projeto: Backend API - Gestão de Álbuns e Sincronização de Regionais
 
 Este projeto é uma API RESTful robusta desenvolvida para o gerenciamento de álbuns musicais, com integração a serviços de armazenamento de objetos (S3/MinIO), notificações em tempo real e um sistema inteligente de sincronização de dados externos.
